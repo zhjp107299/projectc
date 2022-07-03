@@ -1,0 +1,3 @@
+# Project exclude paths
+/projectc-service/target/
+/projectc-web/target/

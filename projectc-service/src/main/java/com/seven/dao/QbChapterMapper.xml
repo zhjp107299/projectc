@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seven.dao.QbChapterMapper">
+
+    <!--第一章节-->
+    <!--随机选取选择题库中第一章节的12道选择题-->
+    <select id="getQbChoices12" resultType="choice">
+        select distinct * from projectc.qb_choice
+         where chapter = #{index}
+         order by rand()
+         limit 0,12;
+    </select>
+    <!--随机选取填空题库中第一章节的8道填空题-->
+    <select id="getQbGapFillings8" resultType="gapFilling">
+        select distinct * from projectc.qb_gap_filling
+        where chapter = #{index}
+        order by rand()
+        limit 0,8;
+    </select>
+    <!--随机选取判断题库中第一章节的12道判断题-->
+    <select id="getQbJudges12" resultType="judge">
+        select distinct * from projectc.qb_judge
+        where chapter = #{index}
+        order by rand()
+        limit 0,12;
+    </select>
+    <!--随机选取编程题库中第一章节的3道编程题-->
+    <select id="getQbProgrammes3" resultType="programme">
+        select distinct * from projectc.qb_programme
+        where chapter = #{index}
+        order by rand()
+        limit 0,3;
+    </select>
+
+</mapper>

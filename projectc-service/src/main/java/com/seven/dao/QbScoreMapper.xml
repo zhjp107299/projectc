@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seven.dao.QbScoreMapper">
+    <!--获取自主命题分数-->
+    <select id="getIndepropoScore" resultType="String" parameterType="int">
+        select score_indepropo
+        from projectc.score_student
+        where  `score_id` = #{id};
+    </select>
+    <!--获取C分数-->
+    <select id="getCScore" resultType="qbC" parameterType="int">
+        select score_c_simple,score_c_middle,score_c_hard
+        from projectc.score_student
+        where  `score_id` = #{id};
+    </select>
+    <!--获取题库练习分数-->
+    <select id="getBankScore" resultType="qbBank" parameterType="int">
+        select score_choice_10,score_choice_25,score_choice_50,score_gap_filling_10,score_gap_filling_25,score_gap_filling_50
+        ,score_judge_10,score_judge_25,score_judge_50,score_programme_5,score_programme_10,score_programme_20
+        from projectc.score_student
+        where `score_id` = #{id};
+    </select>
+    <!--获取章节分数-->
+    <select id="getChapterScore" resultType="qbChapter" parameterType="int">
+        select score_chapter_1,score_chapter_2,score_chapter_3,score_chapter_4
+         ,score_chapter_5,score_chapter_6,score_chapter_7,score_chapter_8
+         ,score_chapter_9
+         from projectc.score_student
+         where `score_id` = #{id};
+    </select>
+
+
+    <update id="scoreStoreIndepropo">
+        update projectc.score_student set ${indepropoString} = '${storeString}'
+        where `score_id` = #{sId}
+    </update>
+    <!--存储C分数和次数-->
+    <update id="scoreStoreC">
+        update projectc.score_student set ${cString} = '${storeString}'
+        where `score_id` = #{sId}
+    </update>
+    <!--存储题库练习分数和次数-->
+    <update id="scoreStoreBank">
+        update projectc.score_student set ${bankString} = '${storeString}'
+        where `score_id` = #{sId}
+    </update>
+    <!--存储章节分数和次数-->
+    <update id="scoreStoreChapter">
+        update projectc.score_student set ${chapterIndexString} = '${storeString}'
+        where `score_id` = #{sId}
+    </update>
+</mapper>

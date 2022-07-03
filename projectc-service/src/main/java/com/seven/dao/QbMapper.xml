@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seven.dao.QbMapper">
+
+    <!--获取题库总数-->
+    <select id="getQbCount" resultType="int">
+        select count(1) as conunt from projectc.qb_choice;
+    </select>
+
+    <!--各题库练习-->
+    <!--随机10/25/50选择题练习-->
+    <select id="getQbChoiceNList" resultType="choice">
+        select distinct * from projectc.qb_choice
+        order by rand()
+        limit 0,${count};
+    </select>
+
+    <!--随机10/25/50填空题练习-->
+    <select id="getQbGapFillingNList" resultType="gapFilling">
+        select distinct * from projectc.qb_gap_filling
+        order by rand()
+        limit 0,${count};
+    </select>
+
+    <!--随机10/25/50判断题练习-->
+    <select id="getQbJudgeListN" resultType="judge">
+        select distinct * from projectc.qb_judge
+        order by rand()
+        limit 0,${count};
+    </select>
+
+    <!--随机10/25/50编程题练习-->
+    <select id="getQbProgrammeListN" resultType="programme">
+        select distinct * from projectc.qb_programme
+        order by rand()
+        limit 0,${count};
+    </select>
+    
+    
+    <!--c模块-->
+    <select id="getQbChoice_50" parameterType="String" resultType="choice">
+        select distinct * from projectc.qb_choice where c_level = #{type}
+        order by rand()
+        limit 0,50;
+    </select>
+    <select id="getQbGapFilling_20" parameterType="String" resultType="gapFilling">
+        select distinct * from projectc.qb_gap_filling where c_level = #{type}
+        order by rand()
+        limit 0,20;
+    </select>
+    <select id="getQbProgramme_4" parameterType="String" resultType="programme">
+        select distinct * from projectc.qb_programme where c_level = #{type}
+        order by rand()
+        limit 0,4;
+    </select>
+</mapper>

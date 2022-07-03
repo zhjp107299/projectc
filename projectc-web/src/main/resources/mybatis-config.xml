@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<!--configuration核心配置文件-->
+<configuration>
+    <!--properties :引入外部配置文件DataSource-->
+    <!--setting :日志、缓存-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!--typeAliases-->
+    <typeAliases>
+        <package name="com.seven.pojo"/>
+    </typeAliases>
+    <!--environments-->
+    <!--mapper-->
+    <mappers>
+        <mapper class="com.seven.dao.UserMapper"/>
+        <mapper class="com.seven.dao.QbChapterMapper"/>
+        <mapper class="com.seven.dao.QbMapper"/>
+    </mappers>
+
+
+
+</configuration>

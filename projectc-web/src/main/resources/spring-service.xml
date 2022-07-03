@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--在Service层中引入Dao层-->
+    <import resource="classpath:spring-dao.xml"/>
+
+    <context:component-scan base-package="com.seven.service"/>
+
+    <!--bean配置-->
+    <bean id="userServiceImpl" class="com.seven.service.UserServiceImpl">
+        <property name="userMapper" ref="userMapper"/>
+    </bean>
+    <bean id="qbServiceImpl" class="com.seven.service.QbServiceImpl">
+        <property name="qbMapper" ref="qbMapper"/>
+    </bean>
+    <bean id="qbChapterServiceImpl" class="com.seven.service.QbChapterServiceImpl">
+        <property name="qbChapterMapper" ref="qbChapterMapper"/>
+    </bean>
+    <bean id="qbScoreServiceImpl" class="com.seven.service.QbScoreServiceImpl">
+        <property name="qbScoreMapper" ref="qbScoreMapper"/>
+    </bean>
+    <bean id="excelInputDBService" class="com.seven.service.ExcelInputDBServiceImpl">
+        <property name="excelInputDBMapper" ref="excelInputDBMapper"/>
+    </bean>
+    <bean id="indePropoServiceImpl" class="com.seven.service.IndePropoServiceImpl">
+        <property name="indePropoMapper" ref="indePropoMapper"/>
+    </bean>
+
+
+
+    <!--Service层核心：事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+</beans>

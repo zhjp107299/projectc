@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seven.dao.UserMapper">
+
+    <!--用户登录-->
+    <select id="getLoginTeacher" resultType="teacher">
+        select * from projectc.teacher where `t_id` = #{id};
+    </select>
+    <select id="getLoginStudent" resultType="student">
+        select * from projectc.student where `s_id` = #{username};
+    </select>
+
+
+    <!--分页获取总数量-->
+    <select id="getStudentsCount" resultType="int">
+        select count(1) as count from projectc.student where s_teacher = #{tName};
+    </select>
+    <select id="getStudentsCountAdmin" resultType="int">
+        select count(1) as count from projectc.student;
+    </select>
+
+    <!--获取用户列表-->
+    <select id="getStudentList" resultType="student">
+    select * from projectc.student;
+</select>
+    <select id="getTeacherList" resultType="teacher">
+        select * from projectc.teacher;
+    </select>
+
+
+    <!--修改教师信息-->
+    <update id="modifyTeacher" parameterType="teacher">
+        update projectc.teacher
+        set `t_name`=#{tName},`t_password`= #{tPassword}
+        where `t_id` = #{tId};
+    </update>
+
+
+    <!--学生信息的增删改查-->
+    <insert id="studentInputDB" parameterType="list">
+        insert into projectc.student(`s_id`,`s_name`,`s_gender`,`s_password`,`s_class`,`s_teacher`,`s_permission`,`s_deadline`,`s_status`,`update_time`,`create_time`)
+        values
+        <foreach collection="list" item="student" separator=",">
+            (
+            #{student.sId},
+            #{student.sName},
+            #{student.sGender},
+            #{student.sPassword},
+            #{student.sClass},
+            #{student.sTeacher},
+
+            #{student.sPermission},
+            #{student.sDeadline},
+            #{student.sStatus},
+
+            #{student.updateTime},
+            #{student.createTime}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getStudentListLimit" resultType="student">
+        select * from projectc.student
+        where s_teacher = #{tName}
+        limit #{currentPageNo},#{pageSize};
+    </select>
+
+    <delete id="deleteStudent" parameterType="int">
+        delete from projectc.student where `s_id` = #{deleId};
+    </delete>
+
+    <insert id="addNewStudent" parameterType="student">
+         insert into projectc.student(`s_id`,`s_name`,`s_gender`,`s_password`,`s_class`,`s_teacher`,`s_permission`,`s_status`,`s_deadline`,`update_time`,`create_time`)
+        values
+            (
+            #{sId},
+            #{sName},
+            #{sGender},
+            #{sPassword},
+            #{sClass},
+            #{sTeacher},
+            #{sPermission},
+            #{sStatus},
+            #{sDeadline},
+            #{updateTime},
+            #{createTime}
+            )
+    </insert>
+
+    <update id="modifyStudent" parameterType="student">
+        update projectc.student set `s_name`= #{sName},`s_gender`= #{sGender},`s_class`= #{sClass},`s_password`= #{sPassword}
+        ,`update_time`= #{updateTime}
+        where `s_id`=#{sId};
+    </update>
+
+
+    <!--为成绩表添加一个学生-->
+    <insert id="addScoreStudent" parameterType="int">
+        insert into projectc.score_student(`score_id`)
+        values (#{scoreId})
+    </insert>
+    <!--批量-->
+    <insert id="addScoreStudentList" parameterType="list">
+        insert into projectc.score_student(`score_id`)
+        values
+        <foreach collection="list" item="student" separator=",">
+            (#{student.sId})
+        </foreach>
+    </insert>
+
+
+
+    <!--admin模块-->
+    <select id="getLoginAdmin" resultType="admin">
+        select * from projectc.administrator where `administrator` = #{administrator};
+    </select>
+
+    <select id="getAllStudents" resultType="student">
+    select * from projectc.student
+        limit #{currentPageNo},#{pageSize};
+</select>
+
+    <select id="getTeachersCountAdmin" resultType="int">
+        select count(1) as count from projectc.teacher;
+    </select>
+    <select id="getAllTeachers" resultType="teacher">
+        select * from projectc.teacher
+        limit #{currentPageNo},#{pageSize};
+    </select>
+
+    <!--admin中关于学生操作-->
+    <update id="setStudentStatus">
+        update projectc.student set `s_status` = #{status} where `s_id` = #{id};
+    </update>
+    <update id="setStudentPermission">
+        update projectc.student set `s_permission` = #{permission} where `s_id` = #{id};
+    </update>
+    <select id="getStudentDeadline" resultType="java.time.LocalDate" parameterType="String">
+        select s_deadline from projectc.student where `s_id` = #{id};
+    </select>
+    <update id="setStudentTime">
+        update projectc.student set `s_deadline` = #{newTime} where `s_id` = #{id};
+    </update>
+
+    <!--admin中关于教师操作-->
+    <delete id="deleteTeacher" parameterType="int">
+        delete from projectc.teacher where `t_id` = #{deleId};
+    </delete>
+    <update id="setTeacherStatus">
+        update projectc.teacher set `t_status` = #{status} where `t_id` = #{id};
+    </update>
+    <update id="setTeacherPermission">
+        update projectc.teacher set `t_permission` = #{permission} where `t_id` = #{id};
+    </update>
+    <select id="getTeacherDeadline" resultType="java.time.LocalDate" parameterType="String" >
+        select t_deadline from projectc.teacher where `t_id` = #{id};
+    </select>
+    <update id="setTeacherTime">
+        update projectc.teacher set `t_deadline` = #{newTime} where `t_id` = #{id};
+    </update>
+    <insert id="addNewTeacher" parameterType="teacher">
+        insert into projectc.teacher(`t_id`,`t_name`,`t_password`,`t_deadline`)
+        values (#{tId},#{tName},#{tPassword},#{tDeadline});
+    </insert>
+    <insert id="teacherInputDB" parameterType="list">
+        insert into projectc.teacher(`t_id`,`t_name`,`t_password`,`t_deadline`)
+        values
+        <foreach collection="list" item="teacher" separator=",">
+            (
+            #{teacher.tId},
+            #{teacher.tName},
+            #{teacher.tPassword},
+            #{teacher.tDeadline}
+            )
+        </foreach>
+    </insert>
+
+    <!--admin操作-->
+    <insert id="addNewAdmin" parameterType="admin">
+        insert into projectc.administrator(`administrator`,`password`)
+        values (#{administrator},#{password});
+    </insert>
+    <update id="modifyAdmin" parameterType="admin">
+        update projectc.administrator set `administrator` = #{administrator},`password`=#{password} where `administrator` = #{preAdmin};
+    </update>
+
+
+    <!--删除学生操作同时删除学生成绩表-->
+    <delete id="deleteStudentScore" parameterType="int">
+        delete  from projectc.score_student where `score_id` = #{deleId};
+    </delete>
+
+    <select id="getAdminList" resultType="admin">
+        select * from projectc.administrator;
+    </select>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seven.dao.IndePropoMapper">
+
+    <select id="getIndepropoShowList" resultType="indepropoShow">
+        select distinct indepropo_name,indepropo_switch from projectc.qb_choice
+        where indepropo_name is not null
+        and `indepropo_name`
+        like CONCAT('%',#{teacher},'%');
+    </select>
+    <select id="getIndepropoNameList" resultType="IndepropoShow">
+        SELECT DISTINCT indepropo_name FROM projectc.qb_choice
+        WHERE indepropo_name IS NOT NULL
+        AND `indepropo_name`
+        LIKE CONCAT('%',#{teacher},'%');
+    </select>
+    <select id="getIndePropoNameStatus" resultType="String">
+        select distinct indepropo_switch from projectc.qb_choice where `indepropo_name` = #{indeName};
+    </select>
+
+    <!--随机选取选择题库中第一章节的12道选择题-->
+    <select id="getIndeChoices12" resultType="choice">
+        select * from projectc.qb_choice
+         where indepropo_name = #{indepropoName}
+         order by rand()
+         limit 0,12;
+    </select>
+    <!--随机选取填空题库中第一章节的8道填空题-->
+    <select id="getIndeGapFillings8" resultType="gapFilling">
+        select * from projectc.qb_gap_filling
+        where indepropo_name = #{indepropoName}
+        order by rand()
+        limit 0,8;
+    </select>
+    <!--随机选取判断题库中第一章节的12道判断题-->
+    <select id="getIndeJudges12" resultType="judge">
+        select * from projectc.qb_judge
+        where indepropo_name = #{indepropoName}
+        order by rand()
+        limit 0,12;
+    </select>
+    <!--随机选取编程题库中第一章节的3道编程题-->
+    <select id="getIndeProgrammes3" resultType="programme">
+        select * from projectc.qb_programme
+        where indepropo_name = #{indepropoName}
+        order by rand()
+        limit 0,3;
+    </select>
+
+    <!--改变自主命题开关状态-->
+    <update id="changeIndePropoStatus">
+        update ${indeType}
+        set `indepropo_switch` = #{newStatus} where `indepropo_name` = #{indeName};
+    </update>
+</mapper>

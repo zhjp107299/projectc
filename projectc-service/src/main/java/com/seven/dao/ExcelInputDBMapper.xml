@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seven.dao.ExcelInputDBMapper">
+
+    <insert id="choiceInputDB" parameterType="list">
+        insert into projectc.qb_choice(`id`,`topic`,`choice_A`,`choice_B`,`choice_C`,`choice_D`,`chapter`,`choice_right`,`c_level`)
+        values
+        <foreach collection="list" item="choice" separator=",">
+            (
+            #{choice.id},
+            #{choice.topic},
+            #{choice.choiceA},
+            #{choice.choiceB},
+            #{choice.choiceC},
+            #{choice.choiceD},
+            #{choice.chapter},
+            #{choice.choiceRight},
+            #{choice.cLevel}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="gapFillingInputDB" parameterType="list">
+        insert into projectc.qb_gap_filling(`id`,`topic`,`answer_right1`,`chapter`,`answer_right2`,`answer_right3`,`answer_right4`,`c_level`)
+        values
+        <foreach collection="list" item="gapFilling" separator=",">
+            (
+            #{gapFilling.id},
+            #{gapFilling.topic},
+            #{gapFilling.answerRight1},
+            #{gapFilling.chapter},
+            #{gapFilling.answerRight2},
+            #{gapFilling.answerRight3},
+            #{gapFilling.answerRight4},
+            #{gapFilling.cLevel}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="judgeInputDB" parameterType="list">
+        insert into projectc.qb_judge(`id`,`topic`,`answer_right`,`chapter`)
+        values
+        <foreach collection="list" item="judge" separator=",">
+            (
+            #{judge.id},
+            #{judge.topic},
+            #{judge.answerRight},
+            #{judge.chapter}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="programmeInputDB" parameterType="list">
+        insert into projectc.qb_programme(`id`,`topic`,`answer1`,`chapter`,`answer2`,`answer3`,`c_level`)
+        values
+        <foreach collection="list" item="programme" separator=",">
+            (
+            #{programme.id},
+            #{programme.topic},
+            #{programme.answer1},
+            #{programme.chapter},
+            #{programme.answer2},
+            #{programme.answer3},
+            #{programme.cLevel}
+            )
+        </foreach>
+    </insert>
+
+
+    <!--导入自主命题-->
+    <insert id="indeChoiceInputDB" parameterType="list">
+        insert into projectc.qb_choice(`id`,`topic`,`choice_A`,`choice_B`,`choice_C`,`choice_D`,`choice_right`,`indepropo_name`)
+        values
+        <foreach collection="list" item="choice" separator=",">
+            (
+            #{choice.id},
+            #{choice.topic},
+            #{choice.choiceA},
+            #{choice.choiceB},
+            #{choice.choiceC},
+            #{choice.choiceD},
+            #{choice.choiceRight},
+            #{choice.indepropoName}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="indeGapFillingInputDB" parameterType="list">
+        insert into projectc.qb_gap_filling(`id`,`topic`,`answer_right1`,`answer_right2`,`answer_right3`,`answer_right4`,`indepropo_name`)
+        values
+        <foreach collection="list" item="gapFilling" separator=",">
+            (
+            #{gapFilling.id},
+            #{gapFilling.topic},
+            #{gapFilling.answerRight1},
+            #{gapFilling.answerRight2},
+            #{gapFilling.answerRight3},
+            #{gapFilling.answerRight4},
+            #{gapFilling.indepropoName}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="indeJudgeInputDB" parameterType="list">
+        insert into projectc.qb_judge(`id`,`topic`,`answer_right`,`indepropo_name`)
+        values
+        <foreach collection="list" item="judge" separator=",">
+            (
+            #{judge.id},
+            #{judge.topic},
+            #{judge.answerRight},
+            #{judge.indepropoName}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="indeProgrammeInputDB" parameterType="list">
+        insert into projectc.qb_programme(`id`,`topic`,`answer1`,`answer2`,`answer3`,`indepropo_name`)
+        values
+        <foreach collection="list" item="programme" separator=",">
+            (
+            #{programme.id},
+            #{programme.topic},
+            #{programme.answer1},
+            #{programme.answer2},
+            #{programme.answer3},
+            #{programme.indepropoName}
+            )
+        </foreach>
+    </insert>
+
+
+</mapper>
